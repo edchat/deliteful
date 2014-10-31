@@ -12,11 +12,20 @@
 </head>
 <body>
 	<h1>d-text-box functional test</h1>
-	<button id="b1">Start</button>
-	<d-text-box id="tb1" name="tb1"></d-text-box><label for="tb1">Deliteful textbox</label><br/>
-	<d-text-box id="tb2" name="tb2" disabled></d-text-box><label for="tb2">Deliteful textbox (disabled)</label>
-	<button id="b2">End</button>
-
+	<d-text-box id='basictb1'></d-text-box><br>
+	<d-text-box id='requiredtb1' required value="a"></d-text-box><br>
+	<d-text-box id='requiredtb1b' required></d-text-box><br>
+	<d-text-box id='tb2' disabled value="Disabled"></d-text-box><br>
+	<d-text-box id='tb3' selectInputText></d-text-box><br>
+	<d-text-box id='tb4' value='foo'></d-text-box><br>
+	<d-text-box id='tb5' trim=true value='Test  '></d-text-box><br>
+	<d-text-box id='tb6' uppercase=true value='Test'></d-text-box><br>
+	<d-text-box id='tb7' lowercase=true value='Test'></d-text-box><br>
+	<d-text-box id='tb8' propercase=true value='Test'></d-text-box><br>
+	<d-text-box id='tb9' type='tel' pattern='[a-zA-Z0-9]+' value='alphaumericOnly$'></d-text-box><br>
+	<d-text-box id='tb9b' type='tel' pattern='\d{3}[\-]\d{3}[\-]\d{4}' value='111-222-3333'></d-text-box><br>
+	<!--
+	<d-text-box id='tb10' type='text' format=upperCaseFormat value='Uppercase Value'></d-text-box><br>
 	<form id="form1" action="processForm.html">
 		<fieldset>
 			<p>
@@ -31,4 +40,5 @@
 		</fieldset>
 
 	</form>
+	-->
 </body>

@@ -1,6 +1,6 @@
 //Listing of all the deliteful unit tests
 define([
-	"./TextBox",
+	"./Textbox",
 	"./CheckBox",
 	"./LinearLayout-direction",
 	"./LinearLayout-horizontal",

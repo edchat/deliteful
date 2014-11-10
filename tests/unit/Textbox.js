@@ -4,36 +4,41 @@ define([
 	"intern/chai!assert",
 	"delite/register",
 	"dojo/dom-class",
-	"deliteful/TextBox"
-], function (dcl, registerSuite, assert, register, domClass, TextBox) {
+	"deliteful/Textbox"
+], function (dcl, registerSuite, assert, register, domClass, Textbox) {
 
-	upperCaseFormat = function (value) { // TODO: can use declaratively only if global????
+	// TODO: can use declaratively only if global????
+	/*global upperCaseFormat:true*/ // for jshint
+	upperCaseFormat = function (value) {
 		var newValue = "";
 		newValue = value.toUpperCase();
 	    return newValue;
 	};
+	/*global lowerCaseFormat:true*/
 	lowerCaseFormat = function (value) {
 		var newValue = "";
 		newValue = value.toLowerCase();
 	    return newValue;
 	};
-	noFormat = function (value) {
+	/*global noFormat:true*/
+	noFormat = function (value) { //
 	    return value;
 	};
 
 
 	var container,
-		html = "<d-text-box id='tb1' required></d-text-box><br>" +
-			"<d-text-box id='tb2' disabled></d-text-box><br>" +
-			"<d-text-box id='tb3' selectInputText></d-text-box><br>" +
-			"<d-text-box id='tb4' value='foo'></d-text-box><br>" +
-			"<d-text-box id='tb5' trim=true value='Test  '></d-text-box><br>" +
-			"<d-text-box id='tb6' uppercase=true value='Test'></d-text-box><br>" +
-			"<d-text-box id='tb7' lowercase=true value='Test'></d-text-box><br>" +
-			"<d-text-box id='tb8' propercase=true value='Test'></d-text-box><br>" +
-			"<d-text-box id='tb9' type='tel' pattern='[a-zA-Z0-9]+' value='alphaumericOnly$'></d-text-box><br>" +
-			"<d-text-box id='tb9b' type='tel' pattern='\d{3}[\-]\d{3}[\-]\d{4}' value='111-222-3333'></d-text-box><br>" +
-			"<d-text-box id='tb10' type='text' format=upperCaseFormat value='Uppercase Value'></d-text-box><br>" +
+		html = "<d-textbox id='tb1' required></d-textbox><br>" +
+			"<d-textbox id='tb2' disabled></d-textbox><br>" +
+			"<d-textbox id='tb3' selectInputText></d-textbox><br>" +
+			"<d-textbox id='tb4' value='foo'></d-textbox><br>" +
+			"<d-textbox id='tb5' trim=true value='Test  '></d-textbox><br>" +
+			"<d-textbox id='tb6' uppercase=true value='Test'></d-textbox><br>" +
+			"<d-textbox id='tb7' lowercase=true value='Test'></d-textbox><br>" +
+			"<d-textbox id='tb8' propercase=true value='Test'></d-textbox><br>" +
+			"<d-textbox id='tb9' type='tel' pattern='[a-zA-Z0-9]+' value='alphaumericOnly$'></d-textbox><br>" +
+			"<d-textbox id='tb9b' type='tel' pattern='\\d{3}[\\-]\\d{3}[\\-]\\d{4}' " +
+			"value='111-222-3333'></d-textbox><br>" +
+			"<d-textbox id='tb10' type='text' format=upperCaseFormat value='Uppercase Value'></d-textbox><br>" +
 			"<input id='htmltb1' type='tel' pattern='[a-zA-Z0-9]+' value='1234567890'>";
 
 	function checkValues(widget, val, errorMsg) {
@@ -77,7 +82,7 @@ define([
 			tb2.deliver();
 			assert.isTrue(tb2.valueNode.disabled, "Unexpected default value for 'disabled' property is set = true");
 		},
-		"selectInputText": function () { //selectInputText is not set on the node, handled in TextBox _inputClickHandler
+		"selectInputText": function () { //selectInputText is not set on the node, handled in Textbox _inputClickHandler
 			var tb3 = document.getElementById("tb3");
 			assert.isTrue(tb3.selectInputText,
 				"Unexpected default value for 'selectInputText' property if 'selectInputText' specified");
@@ -97,7 +102,7 @@ define([
 				"Unexpected initial value property, initial valueNode.value should be trimmed with 'trim' specified.");
 			//tb5.click();
 			//tb5.type('Test trim    ');
-			tb5.value = "Test trim    "; // setting tb5.value here, need to test typing in the input in the functional test.
+			tb5.value = "Test trim    "; // setting tb5.value here, need to test typing in the input in function test.
 			//tb4.click();
 			tb5.deliver();
 			assert.strictEqual(tb5.value, "Test trim",
@@ -111,7 +116,7 @@ define([
 			tb5.value = "Test  "; // TODO: FF & IE  failed with the original value setting tb5.value here to pass FF.
 			tb5.deliver();
 			checkValues(tb5, "Test",
-				"Unexpected initial value property, initial value should be trimmed with 'trim' specified.")
+				"Unexpected initial value property, initial value should be trimmed with 'trim' specified.");
 			tb5.value = "Test trim    "; // setting tb5.value here, need to test typing input in the functional test.
 			checkValues(tb5, "Test trim",
 				"Unexpected value property, updated value should be trimmed with 'trim' set.");
@@ -188,12 +193,12 @@ define([
 				"Unexpected value for format of 'lowerCaseFormat' specified");
 		},
 
-		"Validation": function () { // test TextBox validation
+		"Validation": function () { // test Textbox validation
 			var tb1 = document.getElementById("tb1"); // tb1 is required
 			tb1.required = true;
 			tb1.value = "test validation"; // setting tb1.value here, need to test typing in the functional test.
 			tb1.deliver();
-			var valid = tb1.valueNode.checkValidity();
+			//var valid = tb1.valueNode.checkValidity();
 			assert.isTrue(tb1.valueNode.checkValidity(), "required field tb1 has a value, should be valid");
 			tb1.value = ""; // setting tb1.value here, need to test typing in the input in the functional test.
 			assert.isFalse(tb1.valueNode.checkValidity(), "required field tb1 has no value, should be invalid");
@@ -202,8 +207,8 @@ define([
 			assert.isTrue(tb1.valueNode.checkValidity(),
 				"required field tb1 has no value, but is disabled so should be valid");
 			var tb9 = document.getElementById("tb9");
-			tb9.pattern="[a-zA-Z0-9]+";
-			tb9.value = "alphaOnly"
+			tb9.pattern = "[a-zA-Z0-9]+";
+			tb9.value = "alphaOnly";
 			tb9.deliver();
 			assert.isTrue(tb9.valueNode.checkValidity(),
 				"pattern field tb9 has a value that should match, should be valid");
@@ -246,7 +251,7 @@ define([
 
 	// Markup
 	var markupSuite = {
-		name: "deliteful/TextBox: markup",
+		name: "deliteful/Textbox: markup",
 		"beforeEach": function () {
 			container = document.createElement("div");
 			document.body.appendChild(container);
@@ -258,40 +263,40 @@ define([
 	registerSuite(markupSuite);
 
 	var progSuite = {
-		name: "deliteful/TextBox: programmatic",
+		name: "deliteful/Textbox: programmatic",
 		beforeEach: function () {
 			container = document.createElement("div");
 			document.body.appendChild(container);
-			var tb = new TextBox({id: "tb1", required: true});
+			var tb = new Textbox({id: "tb1", required: true});
 			container.appendChild(tb);
 			tb.startup();
-			tb = new TextBox({id: "tb2", disabled: true});
+			tb = new Textbox({id: "tb2", disabled: true});
 			container.appendChild(tb);
 			tb.startup();
-			tb = new TextBox({id: "tb3", selectInputText: true});
+			tb = new Textbox({id: "tb3", selectInputText: true});
 			container.appendChild(tb);
 			tb.startup();
-			tb = new TextBox({id: "tb4", value: "foo"});
+			tb = new Textbox({id: "tb4", value: "foo"});
 			container.appendChild(tb);
 			tb.startup();
-			tb = new TextBox({id: "tb5", trim: true, value: "Test  "});
+			tb = new Textbox({id: "tb5", trim: true, value: "Test  "});
 			container.appendChild(tb);
 			tb.startup();
-			tb = new TextBox({id: "tb6", uppercase: true, value: "Test"});
+			tb = new Textbox({id: "tb6", uppercase: true, value: "Test"});
 			container.appendChild(tb);
-			tb = new TextBox({id: "tb7", lowercase: true, value: "Test"});
-			container.appendChild(tb);
-			tb.startup();
-			tb = new TextBox({id: "tb8", propercase: true, value: "Test"});
+			tb = new Textbox({id: "tb7", lowercase: true, value: "Test"});
 			container.appendChild(tb);
 			tb.startup();
-			tb = new TextBox({id: "tb9", type: "text", pattern: "[a-zA-Z0-9]+", value: "alphanumeric"});
+			tb = new Textbox({id: "tb8", propercase: true, value: "Test"});
 			container.appendChild(tb);
 			tb.startup();
-			tb = new TextBox({id: "tb9b", type: "tel", pattern: "(\d{5}([\-]\d{4})?)", value: "111-222-3333"});
+			tb = new Textbox({id: "tb9", type: "text", pattern: "[a-zA-Z0-9]+", value: "alphanumeric"});
 			container.appendChild(tb);
 			tb.startup();
-			tb = new TextBox({id: "tb10", type: "text", format: upperCaseFormat, value: "Uppercase Value"});
+			tb = new Textbox({id: "tb9b", type: "tel", pattern: "(\\d{5}([\\-]\\d{4})?)", value: "111-222-3333"});
+			container.appendChild(tb);
+			tb.startup();
+			tb = new Textbox({id: "tb10", type: "text", format: upperCaseFormat, value: "Uppercase Value"});
 			container.appendChild(tb);
 			tb.startup();
 		}

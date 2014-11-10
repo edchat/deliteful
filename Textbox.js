@@ -1,10 +1,10 @@
-/** @module deliteful/TextBox */
+/** @module deliteful/Textbox */
 define([
 	"dcl/dcl",
 	"delite/register",
 	"delite/FormValueWidget",
-	"delite/handlebars!./TextBox/TextBox.html",
-	"delite/theme!./TextBox/themes/{{theme}}/TextBox.css",
+	"delite/handlebars!./Textbox/Textbox.html",
+	"delite/theme!./Textbox/themes/{{theme}}/Textbox.css",
 	"delite/activationTracker"
 ], function (dcl, register, FormValueWidget, template) {
 
@@ -13,26 +13,26 @@ define([
 	/**
 	 * A form-aware widget similar to an HTML5 input type="text" element.
 	 * @example
-	 * <d-text-box></d-text-box>
-	 * @class module:deliteful/TextBox
+	 * <d-textbox></d-textbox>
+	 * @class module:deliteful/Textbox
 	 * @augments module:delite/FormValueWidget
 	 */
-	return register("d-text-box", [HTMLElement, FormValueWidget], /** @lends module:deliteful/TextBox# */ {
+	return register("d-textbox", [HTMLElement, FormValueWidget], /** @lends module:deliteful/Textbox# */ {
 
 		/**
 		 * The component css base class.
 		 * @member {string}
-		 * @default "d-text-box"
+		 * @default "d-textbox"
 		 */
-		baseClass: "d-text-box",
+		baseClass: "d-textbox",
 
 		template: template,
 
 		/**
-		 * If `true`, the user must fill in a value for the TextBox in order to pass validation unless
-		 * the TextBox is `disabled`.  An empty TextBox with required "true" will not fail validation if
+		 * If `true`, the user must fill in a value for the Textbox in order to pass validation unless
+		 * the Textbox is `disabled`.  An empty Textbox with required "true" will not fail validation if
 		 * disabled is "true".
-		 * @member {boolean} module:deliteful/TextBox#required
+		 * @member {boolean} module:deliteful/Textbox#required
 		 * @default false
 		 */
 		required: false,
@@ -47,14 +47,14 @@ define([
 		//		updates "value", and vice-versa.  Otherwise "value" is updated
 		//		from "displayedValue" periodically, like onBlur etc.
 		//
-		//		TODO: move declaration to MappedTextBox?
+		//		TODO: move declaration to MappedTextbox?
 		//		Problem is that ComboBox references displayedValue,
 		//		for benefit of FilteringSelect.
 		/**
 		 * displayedValue matches the value of the valueNode (html of the widget.  It will hold the formatted value,
 		 * if a format function is set.
 		 *
-		 * @member {boolean} module:deliteful/TextBox#required
+		 * @member {boolean} module:deliteful/Textbox#required
 		 * @default ""
 		 */
 		displayedValue: "",
@@ -69,7 +69,7 @@ define([
 
 		/**
 		 * The pattern corresponding to the HTML input pattern. It is a regular expression that the value
-		 * of the TextBox is checked against.
+		 * of the Textbox is checked against.
 		 * @member {string}
 		 * @default ""
 		 */
@@ -78,12 +78,10 @@ define([
 		/**
 		 * The title corresponding to the HTML input title. It is used to describe the pattern to help the user
 		 * if the value is invalid.
-		 * TODO: I was not able to have title here, titlex is temporary until I figure out why!
 		 * @member {string}
 		 * @default ""
 		 */
-		titlex: "",
-		//title: "", // having problems getting title passed back as prop, not sure why?
+		title: "",
 
 		/**
 		 * The maxlength corresponding to the HTML input maxlength.
@@ -160,11 +158,11 @@ define([
 			// summary:
 			//		Hook so get("value") works as we like.
 			// description:
-			//		For `deliteful/TextBox` this basically returns the value of the `<input>`.
+			//		For `deliteful/Textbox` this basically returns the value of the `<input>`.
 			//
 			if (this.focusNode) {
 				var parsedValue = this.parse(this.displayedValue);
-				//console.log("in TextBox " + this.id + ":_getValueAttr with value=", this.focusNode.value+
+				//console.log("in Textbox " + this.id + ":_getValueAttr with value=", this.focusNode.value+
 				// " parsedValue="+parsedValue);
 				return parsedValue;
 			} else {
@@ -172,7 +170,7 @@ define([
 			}
 		},
 
-		//TODO: NOTE if trying to use is="TextBox" to enhance an input type=text I heard this will not be called...
+		//TODO: NOTE if trying to use is="Textbox" to enhance an input type=text I heard this will not be called...
 		_setValueAttr: function (value) {
 			var formattedValue;
 			if (value !== undefined) {
@@ -202,9 +200,9 @@ define([
 			//		Returns the displayed value (what the user sees on the screen),
 			//		after filtering (ie, trimming spaces etc.).
 			//
-			//		For some subclasses of TextBox (like ComboBox), the displayed value
+			//		For some subclasses of Textbox (like ComboBox), the displayed value
 			//		is different from the serialized value that's actually
-			//		sent to the server (see `dijit/form/ValidationTextBox.serialize()`)
+			//		sent to the server (see `dijit/form/ValidationTextbox.serialize()`)
 
 			// TODO: maybe we should update this.displayedValue on every keystroke so that we don't need
 			// this method
@@ -252,16 +250,16 @@ define([
 			//		Auto-corrections (such as trimming) that are applied to textbox
 			//		value on blur or form submit.
 			// description:
-			//		For MappedTextBox subclasses, this is called twice
+			//		For MappedTextbox subclasses, this is called twice
 			//
 			//		- once with the display value
 			//		- once the value as set/returned by set("value", ...)
 			//
-			//		and get("value"), ex: a Number for NumberTextBox.
+			//		and get("value"), ex: a Number for NumberTextbox.
 			//
 			//		In the latter case it does corrections like converting null to NaN.  In
-			//		the former case the NumberTextBox.filter() method calls this.inherited()
-			//		to execute standard trimming code in TextBox.filter().
+			//		the former case the NumberTextbox.filter() method calls this.inherited()
+			//		to execute standard trimming code in Textbox.filter().
 			//
 			//		TODO: break this into two methods in 2.0
 			//
@@ -283,6 +281,7 @@ define([
 				val = val.toLowerCase();
 			}
 			if (this.propercase) {
+				val = val.toLowerCase(); // to force propercase of uppercase strings
 				val = val.replace(/[^\s]+/g, function (word) {
 					return word.substring(0, 1).toUpperCase() + word.substring(1);
 				});
@@ -304,6 +303,7 @@ define([
 		//	return this.focusNode.checkValidity; // currently not being called, the focusNode is being called
 		//},
 
+		// jshint maxcomplexity: 19
 		refreshRendering: function (props) {
 			if ("required" in props) {
 				var required = this.required;
@@ -317,18 +317,6 @@ define([
 					this.valueNode.pattern = pattern; // put the pattern on the input
 				}
 			}
-			/**/
-			if ("titlex" in props) { //TODO: I am having a problem getting the title attr in the props
-				var title = this.titlex;
-				if (this.valueNode && this.valueNode !== this) {
-					this.valueNode.title = title; // put the title on the input
-					this.removeAttribute("title"); // remove the title from the textbox wrapper
-				}
-				if (!title) {
-					this.removeAttribute("titlex");
-				}
-			}
-			/**/
 			if ("type" in props) {
 				var type = this.type;
 				if (this.valueNode && this.valueNode !== this) {
@@ -345,7 +333,26 @@ define([
 					this.valueNode.maxlength = maxlength; // put the maxlength on the input
 				}
 			}
-			/* should name be on the TextBox or on the valueNode (input)?
+			// Only one of these should be true at a time, so setting one true will force the others false
+			if ("uppercase" in props) {
+				if (this.uppercase) {
+					this.lowercase = false; // force lowercase false
+					this.propercase = false; // force propercase false
+				}
+			}
+			if ("lowercase" in props) {
+				if (this.lowercase) {
+					this.uppercase = false; // force uppercase false
+					this.propercase = false; // force propercase false
+				}
+			}
+			if ("propercase" in props) {
+				if (this.propercase) {
+					this.uppercase = false; // force uppercase false
+					this.lowercase = false; // force lowercase false
+				}
+			}
+			/* should name be on the Textbox or on the valueNode (input)? */
 			if ("name" in props) {
 				var name = this.name;
 				if (this.valueNode && this.valueNode !== this) {
@@ -356,13 +363,7 @@ define([
 					this.removeAttribute("name");
 				}
 			}
-			*/
-		}//,
 
-		//computeProperties: function (props) { // thought this might help with getting title set, but it did not
-		//	if ("title" in props || "label" in props) {
-		//		this.title = this.title || this.label || "";
-		//	}
-		//}
+		}//,
 	});
 });

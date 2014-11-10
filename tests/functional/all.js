@@ -1,6 +1,6 @@
 // Listing of all the deliteful functional tests
 define([
-	"./TextBox",
+	"./Textbox",
 	"./StarRating",
 	"./ScrollableContainer",
 	"./list/all",

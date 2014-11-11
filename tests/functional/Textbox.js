@@ -25,8 +25,8 @@ define([
 			.getProperty("focusNode")
 			.getProperty("value")
 			.then(function (value) {
-				console.log("[checkTextbox(remote, '" + widgetId + "', '" + expectedValue + "', " +
-					expectedRequired + ", " + expectedDisabled + ");] on " + remote.environmentType.browserName);
+				//console.log("[checkTextbox(remote, '" + widgetId + "', '" + expectedValue + "', " +
+				//	expectedRequired + ", " + expectedDisabled + ");] on " + remote.environmentType.browserName);
 				assert.equal(value, expectedValue.toString(), "Unexpected widget focusNode value for " + widgetId);
 			})
 			.getProperty("value")
@@ -51,8 +51,8 @@ define([
 			.getProperty("disabled")
 			.then(function (disabled) {
 				assert.strictEqual(disabled, expectedDisabled, "Unexpected widget focusNode disabled for " + widgetId);
-				console.log("passed [checkTextbox(remote, '" + widgetId + "', '" + expectedValue + "', " +
-					"...);] on " + remote.environmentType.browserName);
+				//console.log("passed [checkTextbox(remote, '" + widgetId + "', '" + expectedValue + "', " +
+				//	"...);] on " + remote.environmentType.browserName);
 			});
 	};
 
@@ -64,14 +64,14 @@ define([
 			.getProperty("validity")
 			.then(function (v) {
 				if (v && v.valid !== undefined) {
-					console.log("[checkValidity(remote, '" + widgetId + "', '" + expectedValue + "', " +
-						expectedValid + ", " + expectedDisabled + ", " + expectedRequired + "," +
-						expectedValueMissing + ");] on " + remote.environmentType.browserName);
+					//console.log("[checkValidity(remote, '" + widgetId + "', '" + expectedValue + "', " +
+					//	expectedValid + ", " + expectedDisabled + ", " + expectedRequired + "," +
+					//	expectedValueMissing + ");] on " + remote.environmentType.browserName);
 					assert.strictEqual(v.valid, expectedValid, "Unexpected widget focusNode valid for " + widgetId);
 					assert.strictEqual(v.valueMissing, expectedValueMissing,
 						"Unexpected widget focusNode valueMissing for " + widgetId);
-					console.log(" passed [checkValidity(remote, '" + widgetId + "', '" + expectedValue + "', " +
-						expectedValid + ", ...);] on " + remote.environmentType.browserName);
+					//console.log(" passed [checkValidity(remote, '" + widgetId + "', '" + expectedValue + "', " +
+					//	expectedValid + ", ...);] on " + remote.environmentType.browserName);
 				} else {
 					console.log(" Skipped [checkValidity(remote, '" + widgetId +
 						 "', ...); call validity.valid is not avalable on " +
@@ -165,7 +165,7 @@ define([
 		// In order to function properly on all platforms, we need to know
 		// what the proper character sequence is to go to the end of a text field.
 		// End key works generally everywhere except Mac OS X.
-		console.log("in goToEnd remote.environmentType.platform = " + remote.environmentType.platform);
+		//console.log("in goToEnd remote.environmentType.platform = " + remote.environmentType.platform);
 	/*	if(isInputHomeEndSupported(remote)) {
 			console.log("isInputHomeEndSupported returned true use keys.END for " + remote.environmentType.platform);
 			remote.pressKeys(keys.END);
@@ -190,8 +190,8 @@ define([
 		//.end()
 		//.findByCssSelector("#tempInput")
 		.getProperty("value")
-		.then(function (value) {
-			console.log("in goToEnd value =[" + value + "] for " + remote.environmentType.platform);
+		.then(function (/*value*/) {
+			//console.log("in goToEnd value =[" + value + "] for " + remote.environmentType.platform);
 			// having trouble with the feature test, can not waste more time on this so check for mac if no value
 		/*
 			if(value){
@@ -207,10 +207,10 @@ define([
 			} else {
 		*/
 			if ((/MAC/.test(remote.environmentType.platform))) {
-				console.log("in goToEnd for MAC using  = keys.COMMAND + keys.RIGHT_ARROW + keys.NULL");
+				//console.log("in goToEnd for MAC using  = keys.COMMAND + keys.RIGHT_ARROW + keys.NULL");
 				return remote.type(keys.COMMAND + keys.RIGHT_ARROW + keys.NULL);
 			} else {
-				console.log("in goToEnd not MAC using  = keys.END ");
+				//console.log("in goToEnd not MAC using  = keys.END ");
 				return remote.pressKeys(keys.END);
 			}
 		//	}
@@ -355,7 +355,7 @@ define([
 					return checkTextbox(remote, "trimtb3", "Trim Update", false, false);
 				});
 		},
-		"Textbox uppercase": function () {
+		"Textbox case upper": function () {
 			this.timeout = intern.config.TEST_TIMEOUT;
 			var remote = this.remote;
 			return loadFile(remote, "./Textbox.html")
@@ -377,14 +377,14 @@ define([
 				.then(function () {
 					if (/chrome/.test(remote.environmentType.browserName)) {
 						// Webdriver issues for now with FF
-						console.log("Skipping Textbox Textbox uppercase update on " +
+						console.log("Skipping Textbox Textbox case upper update on " +
 							remote.environmentType.browserName);
 						return remote.end();
 					}
 					return checkTextbox(remote, "uppercasetb4", "UPPER CASE UPDATE", false, false);
 				});
 		},
-		"Textbox lowercase": function () {
+		"Textbox case lower": function () {
 			this.timeout = intern.config.TEST_TIMEOUT;
 			var remote = this.remote;
 			return loadFile(remote, "./Textbox.html")
@@ -407,7 +407,7 @@ define([
 					return checkTextbox(remote, "lowercasetb5", "lower case update", false, false);
 				});
 		},
-		"Textbox propercase": function () {
+		"Textbox case proper": function () {
 			this.timeout = intern.config.TEST_TIMEOUT;
 			var remote = this.remote;
 			return loadFile(remote, "./Textbox.html")

@@ -4,8 +4,7 @@ define([
 	"delite/register",
 	"delite/FormValueWidget",
 	"delite/handlebars!./Textbox/Textbox.html",
-	"delite/theme!./Textbox/themes/{{theme}}/Textbox.css",
-	"delite/activationTracker"
+	"delite/theme!./Textbox/themes/{{theme}}/Textbox.css"
 ], function (dcl, register, FormValueWidget, template) {
 
 	//var labelClickHandler;
@@ -54,7 +53,7 @@ define([
 		 * displayedValue matches the value of the valueNode (html of the widget.  It will hold the formatted value,
 		 * if a format function is set.
 		 *
-		 * @member {boolean} module:deliteful/Textbox#required
+		 * @member {string}
 		 * @default ""
 		 */
 		displayedValue: "",
@@ -100,25 +99,14 @@ define([
 		trim: false,
 
 		/**
-		 * Converts all characters to uppercase if true.
-		 * @member {boolean}
-		 * @default false
+		 * The case used to convert the input value to.  Other valid values are "upper", "lower" and "proper".
+		 * Setting case to "upper" converts all characters to uppercase.
+		 * Setting case to "lower" converts all characters to lowercase.
+		 * Setting case to "proper" converts the first character of each word to uppercase.
+		 * @member {string}
+		 * @default "none"
 		 */
-		uppercase: false,
-
-		/**
-		 * Converts all characters to lowercase if true.
-		 * @member {boolean}
-		 * @default false
-		 */
-		lowercase: false,
-
-		/**
-		 * Converts the first character of each word to uppercase if true.
-		 * @member {boolean}
-		 * @default false
-		 */
-		propercase: false,
+		case: "none",
 
 		/**
 		 * If true, all text will be selected when focused with mouse.
@@ -130,19 +118,8 @@ define([
 
 
 		postRender: function () { // from delite/FormValueWidget, problem with using this.value?
-			this.on("delite-activated", function () {
-				// Called when user may be about to start input.
-				// Saves the widget's current value, which is the most recent of:
-				//
-				//	1. the original value set on widget construction
-				//	2. the value the user set when he previously used the widget
-				//	3. the value the application set programatically
-				//
-				// This is all to avoid firing unnecessary change/input events in the corner case where the
-				// user just selects and releases the Slider handle for example.
-				this.on("click", this._inputClickHandler.bind(this), this.focusNode);
-				this.on("change", this._inputChangeHandler.bind(this), this.focusNode);
-			});
+			this.on("click", this._inputClickHandler.bind(this), this.focusNode);
+			this.on("change", this._inputChangeHandler.bind(this), this.focusNode);
 		},
 
 		format: function (value) {
@@ -170,7 +147,6 @@ define([
 			}
 		},
 
-		//TODO: NOTE if trying to use is="Textbox" to enhance an input type=text I heard this will not be called...
 		_setValueAttr: function (value) {
 			var formattedValue;
 			if (value !== undefined) {
@@ -274,13 +250,13 @@ define([
 			if (this.trim) {
 				val = val.trim();
 			}
-			if (this.uppercase) {
+			if (this.case === "upper") {
 				val = val.toUpperCase();
 			}
-			if (this.lowercase) {
+			if (this.case === "lower") {
 				val = val.toLowerCase();
 			}
-			if (this.propercase) {
+			if (this.case === "proper") {
 				val = val.toLowerCase(); // to force propercase of uppercase strings
 				val = val.replace(/[^\s]+/g, function (word) {
 					return word.substring(0, 1).toUpperCase() + word.substring(1);
@@ -303,56 +279,19 @@ define([
 		//	return this.focusNode.checkValidity; // currently not being called, the focusNode is being called
 		//},
 
-		// jshint maxcomplexity: 19
 		refreshRendering: function (props) {
-			if ("required" in props) {
-				var required = this.required;
-				if (this.valueNode && this.valueNode !== this) {
-					this.valueNode.required = required; // inform screen reader
-				}
-			}
+			// Note pattern is not being set in the template, because then it would always be set and pattern="" causes
+			// problems, it could be set in the template and removed from here if it defaulted to "*" but it seems
+			// better to avoid setting it when it is not needed.
 			if ("pattern" in props) {
 				var pattern = this.pattern;
 				if (this.valueNode && this.valueNode !== this) {
 					this.valueNode.pattern = pattern; // put the pattern on the input
 				}
 			}
-			if ("type" in props) {
-				var type = this.type;
-				if (this.valueNode && this.valueNode !== this) {
-					this.valueNode.type = type; // put the type on the input
-					this.removeAttribute("type"); // remove the type from the textbox wrapper
-				}
-				if (!type) {
-					this.removeAttribute("type");
-				}
-			}
-			if ("maxlength" in props) {
-				var maxlength = this.maxlength;
-				if (this.valueNode && this.valueNode !== this) {
-					this.valueNode.maxlength = maxlength; // put the maxlength on the input
-				}
-			}
-			// Only one of these should be true at a time, so setting one true will force the others false
-			if ("uppercase" in props) {
-				if (this.uppercase) {
-					this.lowercase = false; // force lowercase false
-					this.propercase = false; // force propercase false
-				}
-			}
-			if ("lowercase" in props) {
-				if (this.lowercase) {
-					this.uppercase = false; // force uppercase false
-					this.propercase = false; // force propercase false
-				}
-			}
-			if ("propercase" in props) {
-				if (this.propercase) {
-					this.uppercase = false; // force uppercase false
-					this.lowercase = false; // force lowercase false
-				}
-			}
-			/* should name be on the Textbox or on the valueNode (input)? */
+
+			// TODO: Should "name" be on the Textbox or on the valueNode (input)? this code removes it from the Textbox
+			// and adds it to the valueNode (input)
 			if ("name" in props) {
 				var name = this.name;
 				if (this.valueNode && this.valueNode !== this) {
@@ -364,6 +303,6 @@ define([
 				}
 			}
 
-		}//,
+		}
 	});
 });

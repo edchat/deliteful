@@ -32,9 +32,9 @@ define([
 			"<d-textbox id='tb3' selectInputText></d-textbox><br>" +
 			"<d-textbox id='tb4' value='foo'></d-textbox><br>" +
 			"<d-textbox id='tb5' trim=true value='Test  '></d-textbox><br>" +
-			"<d-textbox id='tb6' uppercase=true value='Test'></d-textbox><br>" +
-			"<d-textbox id='tb7' lowercase=true value='Test'></d-textbox><br>" +
-			"<d-textbox id='tb8' propercase=true value='Test'></d-textbox><br>" +
+			"<d-textbox id='tb6' case='upper' value='Test'></d-textbox><br>" +
+			"<d-textbox id='tb7' case='lower' value='Test'></d-textbox><br>" +
+			"<d-textbox id='tb8' case='proper' value='Test'></d-textbox><br>" +
 			"<d-textbox id='tb9' type='tel' pattern='[a-zA-Z0-9]+' value='alphaumericOnly$'></d-textbox><br>" +
 			"<d-textbox id='tb9b' type='tel' pattern='\\d{3}[\\-]\\d{3}[\\-]\\d{4}' " +
 			"value='111-222-3333'></d-textbox><br>" +
@@ -111,7 +111,7 @@ define([
 				"Unexpected value property, updated valueNode.value should be trimmed with 'trim' set.");
 		},
 	*/
-		"trimFilter": function () { // test trim, uppercase, lowercase, and propercase
+		"trimFilter": function () { // test trim
 			var tb5 = document.getElementById("tb5");
 			tb5.value = "Test  "; // TODO: FF & IE  failed with the original value setting tb5.value here to pass FF.
 			tb5.deliver();
@@ -125,7 +125,7 @@ define([
 			checkValues(tb5, "Test trim    ",
 				"Unexpected value property, updated value should be not be trimmed with 'trim' false.");
 		},
-		"uppercaseFilter": function () { // test trim, uppercase, lowercase, and propercase
+		"uppercaseFilter": function () { // test case = "upper"
 			var tb6 = document.getElementById("tb6");
 			tb6.value = "Test"; // TODO: FF & IE  failed with the original value setting tb6.value here to pass FF.
 			tb6.deliver();
@@ -134,12 +134,12 @@ define([
 			tb6.value = "test uppercase"; // setting tb6.value here, need to test typing input in the functional test.
 			checkValues(tb6, "TEST UPPERCASE",
 				"Unexpected value property, updated value should be uppercased with 'uppercase' set.");
-			tb6.uppercase = false;
+			tb6.case = "none";
 			tb6.value = "Test uppercase"; // setting tb6.value here, need to test typing input in the functional test.
 			checkValues(tb6, "Test uppercase",
-				"Unexpected value property, updated value should not be uppercased with 'uppercase' false.");
+				"Unexpected value property, updated value should not be uppercased with case = 'none'.");
 		},
-		"lowercaseFilter": function () { // test trim, uppercase, lowercase, and propercase
+		"lowercaseFilter": function () { // test case = "lower"
 			var tb7 = document.getElementById("tb7");
 			tb7.value = "Test"; // TODO: FF & IE failed with the original value setting tb7.value here to pass FF.
 			tb7.deliver();
@@ -148,22 +148,22 @@ define([
 			tb7.value = "Test LowerCase"; // setting tb7.value here, need to test typing in the functional test.
 			checkValues(tb7, "test lowercase",
 				"Unexpected value property, updated value should be lowercased with 'lowercase' set.");
-			tb7.lowercase = false;
+			tb7.case = "none";
 			tb7.value = "Test LowerCase"; // setting tb7.value here, need to test typing in the functional test.
 			checkValues(tb7, "Test LowerCase",
-				"Unexpected value property, updated value should not be lowercased with 'lowercase' false.");
+				"Unexpected value property, updated value should not be lowercased with case='none'.");
 		},
-		"propercaseFilter": function () { // test trim, uppercase, lowercase, and propercase
+		"propercaseFilter": function () { // test case = "proper"
 			var tb8 = document.getElementById("tb8");
 			checkValues(tb8, "Test",
 				"Unexpected initial value property, initial value should be propercased with 'propercase' specified.");
 			tb8.value = "test propercase"; // setting tb8.value here, need to test typing in the functional test.
 			checkValues(tb8, "Test Propercase",
 				"Unexpected value property, updated value should be propercased with 'propercase' set.");
-			tb8.propercase = false;
+			tb8.case = "none";
 			tb8.value = "test propercase"; // setting tb8.value here, need to test typing in the functional test.
 			checkValues(tb8, "test propercase",
-				"Unexpected value property, updated value should not be propercased with 'propercase' false.");
+				"Unexpected value property, updated value should not be propercased with case='none'.");
 		},
 		"pattern": function () { // test pattern
 			var tb9 = document.getElementById("tb9");
@@ -282,12 +282,12 @@ define([
 			tb = new Textbox({id: "tb5", trim: true, value: "Test  "});
 			container.appendChild(tb);
 			tb.startup();
-			tb = new Textbox({id: "tb6", uppercase: true, value: "Test"});
+			tb = new Textbox({id: "tb6", case: "upper", value: "Test"});
 			container.appendChild(tb);
-			tb = new Textbox({id: "tb7", lowercase: true, value: "Test"});
+			tb = new Textbox({id: "tb7", case: "lower", value: "Test"});
 			container.appendChild(tb);
 			tb.startup();
-			tb = new Textbox({id: "tb8", propercase: true, value: "Test"});
+			tb = new Textbox({id: "tb8", case: "proper", value: "Test"});
 			container.appendChild(tb);
 			tb.startup();
 			tb = new Textbox({id: "tb9", type: "text", pattern: "[a-zA-Z0-9]+", value: "alphanumeric"});

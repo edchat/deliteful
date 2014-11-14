@@ -1,65 +1,40 @@
-.d-checkbox {
-  position: relative;
-  margin: -0.5em 3px 0.3em 4px;
+/* For now, reuse the bootstrap less variables and functions*/
+.d-textbox-input {
+  height: 22px;
+  border-width: 1px;
+  border-style: inset;
+  font-family: Helvetica;
+  font-size: 13px;
+  border-color: #9cacc0;
+  border-radius: 5px;
 }
-.d-checkbox.d-focused {
+.d-textbox-input:focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+  /* defined in delite/themes/bootstrap/mixins.less */
+}
+.d-textbox-input.d-disabled,
+fieldset[disabled] .d-textbox-input {
+  cursor: not-allowed;
+}
+.d-textbox-input:focus {
   outline: thin dotted;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
-.d-checkbox::before {
-  overflow: hidden;
-  display: inline-block;
-  position: absolute;
-  top: 0px;
-  content: "";
-  border-color: #5c5c5c;
-  border-style: solid;
-  border-width: 1px;
-  border-radius: 0px;
-  background-color: transparent;
-  background-image: none;
-  height: 1em;
-  width: 1em;
+.d-textbox-input:focus:invalid {
+  outline-offset: -2px;
+  outline-style: auto;
+  outline-width: 5px;
+  outline-color: #d46464;
 }
-.d-checkbox.d-rtl::before {
-  right: 0px;
-}
-.d-checkbox.d-checked::before {
-  content: "\2714";
-  color: #61c6eb;
-  background-color: transparent;
-  background-image: none;
-}
-.d-checkbox:active::before {
-  border-color: #99bbca;
-  box-shadow: 0px 0px 1px 4px #1f5366;
-  background-color: #1f5366;
-}
-.d-checkbox.d-disabled {
-  color: #333333;
-}
-.d-checkbox.d-disabled::before {
-  color: #333333;
-  background-image: linear-gradient(to bottom, #f6f6f6 0%, #eeeeee 100%);
-}
-.d-checkbox.d-disabled,
-fieldset[disabled] .d-checkbox {
-  cursor: not-allowed;
-}
-.d-checkbox > input[type=checkbox] {
-  width: 1em;
-  height: 1em;
-  margin: 0px;
-  opacity: 0.01;
-  position: relative;
-  overflow: hidden;
-  font: inherit;
-  cursor: pointer;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-}
-.d-checkbox > input[type=checkbox][disabled],
-fieldset[disabled] .d-checkbox > input[type=checkbox] {
-  cursor: not-allowed;
+.d-textbox-input:required:invalid,
+d-textbox-input:focus:invalid {
+  box-shadow: 0 0 1.5px 1px #d46464;
+  border: 2px inset #d46464;
+  background-repeat: no-repeat;
+  background-image: url("images/error.png");
+  background-position: right top;
+  background-size: auto 100%;
 }

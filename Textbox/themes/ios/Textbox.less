@@ -1,48 +1,17 @@
 @import "../../../../delite/themes/ios/includes";
 
-.d-checkbox-styles() {
-	margin-left: 3px;
-	margin-right: 3px;
-	margin-top: 10px;
-	margin-bottom: 10px;
-	.default-button-border-styles();
-	.d-button-background-image();
-	.tap-highlight-color(rgba(255,255,255,0));
+/* For now, reuse the bootstrap less variables and functions*/
+@import "../../../../delite/themes/bootstrap/includes";
+@import "../../../../delite/themes/bootstrap/variables.less";
+
+@import "../Textbox_template";
+
+.d-textbox-styles() {
+	color: @input-color;
 }
 
-.d-checkbox-active-styles () {
-	.d-button-blue-selected-background-image();
+.d-textbox-input-styles() {
+	&:focus {
+		.tab-focus(); /* defined in delite/themes/bootstrap/mixins.less */
+	}
 }
-.d-checkbox-focused () {
-}
-
-.d-checkbox-before-styles () {
-	border-color: #b0b0b0;
-	border-style: solid;
-	border-width: 1px;
-	border-radius: 2px;
-	.d-button-background-image();
-	height: 10px;
-	width: 10px;
-}
-
-@d-checkbox-disabled-color: rgb(84, 84, 84);
-
-.d-checkbox-checked-before-styles () {
-	.d-button-checked-background-image();
-	color: white;
-}
-.d-checkbox-before-disabled-styles () {
-	border-color: #cfcfcf;
-	.d-button-background-image();
-	color: #9b9b9b;
-}
-
-.d-checkbox-input-styles () {
-	width:12px;
-	height:12px;
-	margin: 0px;
-	margin-top: 1px \9; /* IE8-9 */
-}
-
-@import "../CheckBox_template";

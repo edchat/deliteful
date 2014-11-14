@@ -1,64 +1,33 @@
-.d-checkbox {
-	position: relative;
-	.d-checkbox-styles();
-	&.d-focused { // from tab-focus()
-		.d-checkbox-focused();
-	}
-	&::before {
-		overflow: hidden;
-		display: inline-block;
-		position:absolute;
-		top:0px;
-		content:"";
-		.d-checkbox-before-styles();
-	}
-	&.d-rtl::before {
-		right: 0px;
-	}
-	&.d-checked::before {
-		content: "\2714";
-		.d-checkbox-checked-before-styles();
-	}
-	&:active::before {
-		.d-checkbox-active-styles();
-	}
-	&.d-disabled {
-		color: @d-checkbox-disabled-color;
-		&::before {
-			.d-checkbox-before-disabled-styles();
-		}
-	}
+.d-textbox-input {
+	.d-textbox-input-styles();
+	height: 22px;
+	border-width: 1px;
+	border-style: inset;
+	font-family: Helvetica;
+	font-size: 13px;
+	border-color: #9cacc0;
+	border-radius: 5px;
 	&.d-disabled,
 	fieldset[disabled] & {
 		cursor: not-allowed;
 	}
 }
-
-.d-checkbox > input[type=checkbox] {
-	.d-checkbox-input-styles();
-	opacity: 0.01;
-	position: relative;
-	overflow: hidden;
-	font: inherit;
-	cursor: pointer;
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	&[disabled],
-	fieldset[disabled] & {
-		cursor: not-allowed;
-	}
+.d-textbox-input:focus {
+	outline: thin dotted;
+	outline: 5px auto -webkit-focus-ring-color;
+	outline-offset: -2px;
 }
-input:focus:invalid {
+.d-textbox-input:focus:invalid {
 	outline-offset: -2px;
 	outline-style: auto;
 	outline-width: 5px;
 	outline-color: rgb(212, 100, 100);
-}
-
-input:required:invalid, input:focus:invalid, textarea:required:invalid, textarea:focus:invalid {
+ }
+.d-textbox-input:required:invalid, d-textbox-input:focus:invalid {
 	box-shadow: 0 0 1.5px 1px rgb(212, 100, 100);
 	border: 2px inset rgb(212, 100, 100);
 	background-repeat: no-repeat;
-	background-image: url("../images/error.png");
+	background-image: url("./images/error.png");
 	background-position: right top;
+	background-size: auto 100%;
 }

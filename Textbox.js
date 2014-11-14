@@ -80,7 +80,9 @@ define([
 		 * @member {string}
 		 * @default ""
 		 */
-		title: "",
+		// TODO: this is causing a problem on iOS8, so I will comment it out for now but need to figure out how to
+		// get the title set on the input.
+		//title: "",
 
 		/**
 		 * The maxlength corresponding to the HTML input maxlength.
@@ -220,7 +222,6 @@ define([
 			return value;	// String
 		},
 
-		_blankValue: "", // if the textbox is blank, what value should be reported
 		filter: function (val) {
 			// summary:
 			//		Auto-corrections (such as trimming) that are applied to textbox
@@ -242,7 +243,7 @@ define([
 			// tags:
 			//		protected extension
 			if (val === null) {
-				return this._blankValue;
+				return "";
 			}
 			if (typeof val !== "string") {
 				return val;
@@ -275,31 +276,19 @@ define([
 			this.value = this.focusNode.value;
 		},
 
-		//checkValidity: function () {
-		//	return this.focusNode.checkValidity; // currently not being called, the focusNode is being called
-		//},
-
 		refreshRendering: function (props) {
 			// Note pattern is not being set in the template, because then it would always be set and pattern="" causes
-			// problems, it could be set in the template and removed from here if it defaulted to "*" but it seems
-			// better to avoid setting it when it is not needed.
+			// problems
 			if ("pattern" in props) {
-				var pattern = this.pattern;
-				if (this.valueNode && this.valueNode !== this) {
-					this.valueNode.pattern = pattern; // put the pattern on the input
-				}
+				this.focusNode[this.pattern ? "setAttribute" : "removeAttribute"]("pattern", this.pattern);
 			}
 
 			// TODO: Should "name" be on the Textbox or on the valueNode (input)? this code removes it from the Textbox
 			// and adds it to the valueNode (input)
 			if ("name" in props) {
-				var name = this.name;
 				if (this.valueNode && this.valueNode !== this) {
-					this.valueNode.name = name; // put the name on the input
+					this.valueNode[this.name ? "setAttribute" : "removeAttribute"]("name", this.name);
 					this.removeAttribute("name"); // remove the name from the textbox wrapper
-				}
-				if (!name) {
-					this.removeAttribute("name");
 				}
 			}
 

@@ -75,14 +75,12 @@ define([
 		pattern: "",
 
 		/**
-		 * The title corresponding to the HTML input title. It is used to describe the pattern to help the user
+		 * The tip corresponding to the HTML input title. It is used to describe the pattern to help the user
 		 * if the value is invalid.
 		 * @member {string}
 		 * @default ""
 		 */
-		// TODO: this is causing a problem on iOS8, so I will comment it out for now but need to figure out how to
-		// get the title set on the input.
-		//title: "",
+		tip: "",
 
 		/**
 		 * The maxlength corresponding to the HTML input maxlength.
@@ -281,6 +279,10 @@ define([
 			// problems
 			if ("pattern" in props) {
 				this.focusNode[this.pattern ? "setAttribute" : "removeAttribute"]("pattern", this.pattern);
+			}
+
+			if ("tip" in props) {
+				this.focusNode[this.tip ? "setAttribute" : "removeAttribute"]("title", this.tip);
 			}
 
 			// TODO: Should "name" be on the Textbox or on the valueNode (input)? this code removes it from the Textbox

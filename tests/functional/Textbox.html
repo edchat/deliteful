@@ -20,10 +20,12 @@
 	<d-textbox id='uppercasetb4' case='upper' value='upper case'></d-textbox><br>
 	<d-textbox id='lowercasetb5' case='lower' value='Lower Case'></d-textbox><br>
 	<d-textbox id='propercasetb6' case='proper' value='proper case'></d-textbox><br>
-	<d-textbox id='tb7' selectInputText=true value='select input text'></d-textbox><br>
-	<d-textbox id='tb8' value='foo'></d-textbox><br>
-	<d-textbox id='tb9' type='tel' pattern='[a-zA-Z0-9]+' value='alphaumericOnly$'></d-textbox><br>
-	<d-textbox id='tb9b' type='tel' pattern='\d{3}[\-]\d{3}[\-]\d{4}' value='111-222-3333'></d-textbox><br>
+	<d-textbox id='selectInputTexttb7' selectInputText=true value='select input text'></d-textbox><br>
+	<d-textbox id='patterntb8' type='text' pattern='[a-zA-Z0-9]+' value='alphaumericOnly$'></d-textbox><br>
+	<d-textbox id='patterntb8b' type='tel' pattern='\d{3}[\-]\d{3}[\-]\d{4}'
+			   tip="Enter valid US phone number, use pattern ###-###-####" value='111-222-333'></d-textbox><br>
+	<d-textbox id='maxlengthtb9' maxlength=8 value='0123456789'></d-textbox><br>
+	<d-textbox id='tb10' value='foo'></d-textbox><br>
 	<div id='tempDiv'><input type="text" id="tempInput" value="2" ></div><br>
 	<!--
 	<d-textbox id='tb10' type='text' format=upperCaseFormat value='Uppercase Value'></d-textbox><br>

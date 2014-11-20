@@ -1,11 +1,11 @@
 /** @module deliteful/Textbox */
 define([
 	"dcl/dcl",
+	"dojo/dom-class", // TODO: replace (when replacement confirmed)
 	"delite/register",
 	"delite/FormValueWidget",
-	"delite/handlebars!./Textbox/Textbox.html",
 	"delite/theme!./Textbox/themes/{{theme}}/Textbox.css"
-], function (dcl, register, FormValueWidget, template) {
+], function (dcl, domClass, register, FormValueWidget) {
 
 	//var labelClickHandler;
 
@@ -24,8 +24,6 @@ define([
 		 * @default "d-textbox"
 		 */
 		baseClass: "d-textbox",
-
-		template: template,
 
 		/**
 		 * If `true`, the user must fill in a value for the Textbox in order to pass validation unless
@@ -115,11 +113,40 @@ define([
 		 */
 		selectInputText: false,
 
+		render: register.superCall(function (sup) {
+			return function () {
+				this.valueNode = this.querySelector("input") || this.ownerDocument.createElement("input");
+				if(this.getAttribute("name")){
+					this.valueNode.setAttribute("name", this.getAttribute("name"));
+					this.removeAttribute("name"); // remove the name from the textbox wrapper
+				}
+				console.log("in render for this.id["+this.id+"] this.valueNode.value=["+this.valueNode.value+"]");
+				sup.call(this);
+				this.appendChild(this.valueNode);
+				this.focusNode = this.valueNode;
+			//	this.value = this.value; // filter value
+			//	this.handleMin.setAttribute("aria-valuemin", this.min); // from Slider
+			//	this.focusNode.setAttribute("aria-valuemax", this.max);
+			//	this.tabStops = "handleMin,focusNode";
+			//	this.handleMin._isActive = true;
+			};
+		}),
 
 
 		postRender: function () { // from delite/FormValueWidget, problem with using this.value?
 			this.on("click", this._inputClickHandler.bind(this), this.focusNode);
 			this.on("change", this._inputChangeHandler.bind(this), this.focusNode);
+			this.on("input", this._inputInputHandler.bind(this), this.focusNode);
+
+			this.setAttribute("role", "presentation");
+			this.focusNode.setAttribute("role", "textbox");
+			console.log("in postRender for this.id["+this.id+"] this.focusNode.value=["+this.focusNode.value+"] this.displayedValue=["+this.displayedValue+"]");
+			this.focusNode.value = this.displayedValue;
+			domClass.add(this, "d-textbox");
+			domClass.add(this.focusNode, "d-textbox-input");
+			if(!this.required) {
+				this.focusNode.setAttribute("aria-required", false);
+			}
 		},
 
 		format: function (value) {
@@ -166,6 +193,7 @@ define([
 				!isNaN(formattedValue)) && this.focusNode.value !== formattedValue) {
 				this.focusNode.value = formattedValue;
 				this._set("displayedValue", this.displayedValue);
+
 			}
 		},
 
@@ -209,6 +237,7 @@ define([
 			this._setValueAttr(this.get("value"), undefined);
 
 			this._set("displayedValue", this.get("displayedValue"));
+			console.log("in _setDisplayedValueAttr this.displayedValue = "+displayedValue);
 		},
 
 		parse: function (value) {
@@ -271,7 +300,15 @@ define([
 		},
 
 		_inputChangeHandler: function () {
+			console.log("in _inputChangeHandler this.focusNode.value="+this.focusNode.value);
+		//	this.displayedValue = this.focusNode.value;
 			this.value = this.focusNode.value;
+		},
+
+		_inputInputHandler: function () {
+			console.log("in _inputInputHandler this.focusNode.value="+this.focusNode.value);
+			this.displayedValue = this.focusNode.value;
+		//	this.value = this.focusNode.value;
 		},
 
 		refreshRendering: function (props) {
@@ -283,6 +320,19 @@ define([
 
 			if ("tip" in props) {
 				this.focusNode[this.tip ? "setAttribute" : "removeAttribute"]("title", this.tip);
+			}
+
+			if ("maxlength" in props) {
+				this.focusNode[this.maxlength ? "setAttribute" : "removeAttribute"]("maxlength", this.maxlength);
+			}
+
+			if ("type" in props) {
+				this.focusNode[this.type ? "setAttribute" : "removeAttribute"]("type", this.type);
+			}
+
+			if ("required" in props) {
+				this.focusNode[this.required ? "setAttribute" : "removeAttribute"]("required", this.required);
+				this.focusNode.setAttribute("aria-required", this.required);
 			}
 
 			// TODO: Should "name" be on the Textbox or on the valueNode (input)? this code removes it from the Textbox

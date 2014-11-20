@@ -15,6 +15,13 @@ define({
 		// It seems that specifying version="" or leaving version unspecified
 		// does not default to the latest version of the browser.
 
+		// test mac diff browsers
+	//	{"browserName": "firefox", "platform": "OS X 10.9","version": "33"},
+	//	{"browserName": "firefox","platform": "Windows 7","version": "33"},
+	//	{"browserName": "chrome","platform": "Windows 8.1","version": "38"},
+	//	{"browserName": "chrome","platform": "OS X 10.9","version": "37"},
+	//	{"browserName": "safari","platform": "OS X 10.9","version": "7"}
+
 		// Desktop.
 		// Not running on IE9 since Widget-attr test depends on domClass methods only available in IE10_
 		{ browserName: "internet explorer", version: "11", platform: "Windows 8.1", requireWindowFocus: "true",

@@ -1,0 +1,92 @@
+<!doctype html>
+<html id="html">
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+	<meta name="viewport"
+	      content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"/>
+	<meta name="apple-mobile-web-app-capable" content="yes"/>
+
+	<title>Switch samples</title>
+
+	<script type="text/javascript" src="../../requirejs/require.js"></script>
+
+	<script type="text/javascript">
+		require.config({
+			baseUrl: "../.."
+		});
+	</script>
+
+
+	<script type="text/javascript">
+		require([
+			"delite/register",
+			"deliteful/Checkbox",
+			"deliteful/RadioButton",
+			"deliteful/Slider",
+			"delite/theme!delite/themes/{{theme}}/global.css",	// page level CSS
+			"requirejs-domready/domReady!"
+		], function (register, Checkbox) {
+			register.parse();
+			document.body.style.display = "";
+		});
+	</script>
+</head>
+<style>
+</style>
+<body style="display: none">
+<form> In form <br> Make changes then go to a different page and back. <br>
+	If only a checkbox is changed that update will not be saved and restored.<br>
+
+	<input id="ncb1" type="checkbox"  name="ncb1" checked="true">
+	<label for="ncb1"> Native Checkbox 1 init checked with name</label>
+	<br>
+	<input id="ncb2" type="checkbox"  name="ncb2">
+	<label for="ncb2"> Native Checkbox 2 init unchecked with name</label>
+	<br>
+	<input id="ncb3" type="checkbox" checked="true">
+	<label for="ncb3"> Native Checkbox 3 init checked with no name</label>
+	<br>
+	<input id="ncb4" type="checkbox">
+	<label for="ncb4"> Native Checkbox 4 init unchecked with no name</label>
+	<br><br>
+
+	<input id="tb1" value="test" name="tb1" >
+	<label for="tb1"> Native Input 1 init value test with name</label>
+	<br>
+	<input id="tb2" value=""  name="tb2">
+	<label for="tb2"> Native Input 2 no init value with name </label>
+	<br>
+	<input id="tb3" value="test3" name="tb3" >
+	<label for="tb3"> Native Input 3 init value test3 with no name</label>
+	<br>
+	<input id="tb4" value=""  name="option6">
+	<label for="tb4"> Native Input 4 with no init value or name </label>
+	<br><br>
+
+	<input type="radio" name="radio2" id="rb2" value="rb2" checked><label for="rb2">Choice 1</label><br>
+	<input type="radio"  name="radio2" id="rb3"  value="rb3"><label for="rb3">Choice 2</label><br>
+	<input type="radio"  name="radio2"  value="rb4" id="rb4"><label for="rb4">Choice 3</label><br>
+	<br>
+
+
+	<d-slider id="sl1">
+		<input value="," name="slider1">
+	</d-slider>
+	<label for="sl1"> d-slider 1 with no init value "," with name </label>
+	<br><br>
+	<d-slider id="sl2">
+		<input value=",">
+	</d-slider>
+	<label for="sl2"> d-slider 1 with no init value "," with no name </label>
+	<br><br>
+
+	<label>
+		<d-checkbox name="options" checked="true"></d-checkbox>
+		d-checkbox 1 init checked
+	</label>
+	<d-checkbox name="options" id="option2"></d-checkbox>
+	<label for="option2"> d-checkbox 2 init unchecked </label>
+	<br><br>
+</form>
+</body>
+</html>

@@ -1,0 +1,505 @@
+<!doctype html>
+<html id="html">
+<head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+<meta name="viewport"
+      content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+
+<title>Textbox samples</title>
+
+<style type="text/css">
+	input:focus:invalid {
+		outline-offset: -2px;
+		outline-style: auto;
+		outline-width: 5px;
+		outline-color: rgb(212, 100, 100);
+	}
+
+	input:required:invalid, input:focus:invalid, textarea:required:invalid, textarea:focus:invalid {
+		box-shadow: 0 0 1.5px 1px rgb(212, 100, 100);
+		border: 2px inset rgb(212, 100, 100);
+		background-repeat: no-repeat;
+		background-image: url("./images/error.png");
+		background-position: right top;
+		background-size: auto 100%;
+	}
+</style>
+<script type="text/javascript" src="../../requirejs/require.js"></script>
+<script type="text/javascript">
+	require.config({
+		baseUrl: "../.."
+	});
+</script>
+
+
+<script type="text/javascript">
+	nested1 = {
+		Type: "Home",
+		Email: "e@mail.com",
+		Password: "password",
+		Address: {
+			Street: "123 Valley Rd",
+			City: "Katonah",
+			State: "NY",
+			Zip: "10536"
+		},
+		Telephone: {
+			AreaCode: "123",
+			Landline: {
+				Number: "123-456-7890",
+				Extension: "42"
+			},
+			Cell: {
+				Number: "123-765-4321"
+			}
+		}
+	};
+	nested2 = {
+		Type: "Office",
+		Email: "o@mail.com",
+		Password: "password2",
+		Address: {
+			Street: "17 Skyline Dr",
+			City: "Hawthorne",
+			State: "NY",
+			Zip: "10532"
+		},
+		Telephone: {
+			AreaCode: "098",
+			Landline: {
+				Number: "098-765-4321",
+				Extension: "24"
+			},
+			Cell: {
+				Number: "123-123-4567"
+			}
+		}
+	};
+	var upperCaseFormat = function(value) {
+		var newValue = "";
+		newValue = value.toUpperCase();
+	    return newValue;
+	};
+	var lowerCaseFormat = function(value) {
+		var newValue = "";
+		newValue = value.toLowerCase();
+	    return newValue;
+	};
+	var noFormat = function(value) {
+	    return value;
+	};
+
+	var setFilter = function(node, attr, val, filterCurrent) {
+		var spanStatus = document.getElementById(filterCurrent);
+		if(attr) {
+			node[attr] = val;
+			spanStatus.innerHTML = "Filter:"+attr+"="+val;
+		} else {
+			node.case = "none";
+			spanStatus.innerHTML = "No Filter";
+		}
+	};
+
+	var toggleButton = function(node, attr, button) {
+		node[attr] = !node[attr];
+		button.value = "Toggle "+ attr + (node[attr] ? " off" : " on");
+	};
+
+	var setTBValue = function(widId, attr, val) {
+		var patternNode = document.getElementById(widId);
+		patternNode[attr] = val;
+		//node.deliver();
+	};
+
+	var setPattern = function(widId, attr, val) {
+		var patternNode = document.getElementById(widId);
+		patternNode[attr] = val;
+		//node.deliver();
+	};
+
+	var setFormat = function(widId, format, formatName) {
+		var node = document.getElementById(widId);
+		node.format = format;
+		node.setAttribute("format", formatName);
+	};
+
+	var setParse = function(widId, parse, parseName) {
+		var node = document.getElementById(widId);
+		node.parse = parse;
+		node.setAttribute("parse", parseName);
+	};
+
+	var xcheckValidity = function(node, attr, button) {
+		var val = node.valueNode.checkValidity();
+		if(val){
+			alert("Valid");
+		} else {
+			alert("Invalid");
+		}
+	};
+
+	var setValueButton = function(node, attr, button) {
+		if(node.value.toUpperCase() === "TEXT NO BLANKS"){
+			node[attr] = "Text    ";
+			button.value = "Set Text "+ attr + " Text No Blanks";
+		} else {
+			node[attr] = "Text no blanks";
+			button.value = "Set Text "+ attr + " Text with 4Blanks";
+		}
+
+	};
+
+	var changeButtonNumberAttr = function(nodeid, attr, button) {
+		// uses the maxLength property not the maxlength attribute
+		var node = document.getElementById(nodeid);
+		console.log("changeButtonNumberAttr called currently node[attr]="+node[attr]);
+		if(node[attr] === 8){
+			node[attr] = 16;
+		} else if(node[attr] === 16){
+					node[attr] = 524288;
+		} else if(node[attr] === 524288){
+					node[attr] = 0;
+		} else {
+			node[attr] = 8;
+		}
+		console.log("changeButtonNumberAttr called updated node[attr]="+node[attr]);
+
+		button.value = "Changed "+ attr + " to " + node[attr];
+	};
+
+	var handleSubmit = function(node, formid) {
+		var form = document.getElementById(formid);
+		console.log('Form Submitted: form.value=',form.value);
+		showValues(node);
+		printFormValues(form);
+		alert("showing values");
+	};
+
+	var printFormValues = function (form) {
+		console.log("in printFormValues " + form.id);
+		formElems = form.querySelectorAll('[name]'); // query the form value fields
+		for (var i = 0; i < formElems.length; i++) {
+			var elem = formElems[i];
+			if (elem.name) {
+				console.log("in printFormValues " + form.id + " value for elem.name=[" +
+						elem.name + "] is value=[" + elem.value + "]");
+			}
+		}
+		return false;
+	};
+
+	var showValues = function(node) {
+		console.log('showValues for node.id=['+ node.id + "] node.value=["+node.value+"] node.valueNode.value=["+
+				node.valueNode.value + "] node.displayedValue=["+node.displayedValue + "]");
+	};
+
+	require([
+		"delite/register",
+		"deliteful/Textbox",
+		"delite/Widget",
+		"deliteful/CheckBox"
+	], function (register, Textbox, Widget) {
+		function startup () {
+	/*		register("custom-form", [HTMLElement, Widget], {
+				value: null,
+				original: null,
+				render: function () {
+					console.log("in Form " + this.id + ":render value", this.value);
+				},
+				preRender: function () {
+					console.log("in Form " + this.id + ":preRender value", this.value);
+				},
+				postRender: function () {
+					console.log("in Form " + this.id + ":postRender value", this.value);
+				},
+				refreshRendering: function (oldValues) {
+					console.log("in Form " + this.id + ":refreshRendering value", this.value);
+				},
+				_getValueForElem: function (name) {
+					if (name && this.value[name]) {
+						console.log("in Form " + this.id + ":_getValueForElem returning value for elem.name=[" + name +
+								"] with value=[" + this.value[name] + "]");
+						return(this.value[name]);
+					} else { // check to see if there is a . in the elem.name
+						var parts = name.split(".");
+						var val = this.value;
+						for (var item in parts) {
+							if (val[parts[item]]) {
+								val = val[parts[item]];
+							} else {
+								console.warn("in Form " + this.id + ":_getValueForElem did not find value for elem.name=[" +
+										name + "] this.value =", this.value);
+								return null;
+							}
+						}
+						return val;
+					}
+				},
+				_getObjectToUpdate: function (val, parts) {
+					if (parts) {
+						var obj = val;
+						for (var item in parts) {
+							obj = obj[parts[item]];
+						}
+						return obj;
+					}
+					return null;
+				},
+
+				_setValueFromElem: function (val, elem) {
+					console.log("in Form " + this.id + ":_setValueFromElem");
+					if (elem.name && val[elem.name]) {
+						console.log("in Form " + this.id + ":_setValueFromElem returning value for elem.name=[" +
+								elem.name + "] with value=[" + val[elem.name] + "]");
+						val[elem.name] = elem.value;
+						return;
+					} else { // check to see if there is a . in the elem.name
+						var parts = elem.name.split(".");
+						var lastPart = parts.pop();
+						var updatePart = this._getObjectToUpdate(val, parts);
+						if (updatePart[lastPart]) {
+							updatePart[lastPart] = elem.value;
+						} else {
+							console.warn("in Form " + this.id + ":_setValueFromElem did not find value for elem.name=[" +
+									elem.name + "] val =", val);
+						}
+					}
+				},
+				_getFormValue: function () {
+					console.log("in Form " + this.id + ":_getFormValue");
+					formElems = this.querySelectorAll('[name]'); // query the form value fields
+					for (var i = 0; i < formElems.length; i++) {
+						var elem = formElems[i];
+						if(elem.checkValidity){
+							if(!elem.checkValidity()){
+								console.warn("Warning invalid form value! Can not save");
+								elem.focus();
+								return this.value;
+							}
+						} else if(elem.valueNode && elem.valueNode.checkValidity) {
+							if(!elem.valueNode.checkValidity()){
+								console.warn("Warning invalid form value! Can not save");
+								elem.focus();
+								return this.value;
+							}
+						}
+					}
+					for (var i = 0; i < formElems.length; i++) {
+						var elem = formElems[i];
+						if (elem.name) {
+							this._setValueFromElem(this.value, elem);
+							console.log("in Form " + this.id + ":_getFormValue setting value for elem.name=[" +
+									elem.name + "] with value=[" + elem.value + "]");
+						}
+					}
+					return this.value;
+				},
+
+				_setFormValue: function () {
+					console.log("in Form " + this.id + ":_setFormValue");
+					if (this.value) {
+						formElems = this.querySelectorAll('[name]'); // query the form value fields
+						console.log("in Form " + this.id + ":_setFormValue formElems.length="+formElems.length);
+						for (var i = 0; i < formElems.length; i++) {
+							var elem = formElems[i];
+							console.log("in Form " + this.id + ":_setFormValue got elem=",elem);
+							console.log("in Form " + this.id + ":_setFormValue got elem.name="+elem.name);
+							if (elem.name) {
+								console.log("in Form " + this.id + ":_setFormValue got elem.name="+elem.name);
+								var val = this._getValueForElem(elem.name);
+								console.log("in Form " + this.id + ":_setFormValue got val="+val);
+								if (val) {
+									elem.value = val;
+									console.log("in Form " + this.id + ":_setFormValue setting elem.value elem.name=[" +
+											elem.name + "] with value=[" + elem.value + "]");
+								}
+							}
+						}
+					}
+				},
+
+				// Called when the form value is set
+				_setValueAttr: function (val) {
+					this._set("value", val);
+					console.log("in Form " + this.id + ":_setValueAttr with val=", val);
+					this._setFormValue(); // set the values into the form fields from this.value
+				},
+				reset: function () { // reset values from this.value, since not live bound can reset from value
+					console.log("in Form " + this.id + ":reset, reset data to =", this.value);
+					this._setFormValue(); // reset the values in the form fields to this.value
+				},
+
+				save: function () { // save the form field values back into this.value
+					var t = this._getFormValue(); // updates this.value from the form fields
+				},
+
+				baseClass: "custom-form"
+			});
+*/
+			register.parse();
+		}
+
+		//console.log("calling statup");
+		//startup();
+		document.body ? startup() : window.addEventListener("DOMContentLoaded", startup);
+	});
+</script>
+</head>
+<body>
+	<br><br><span>Test different types of Textboxes</span>
+	<div>
+		<form id="formFilter1" onsubmit="handleSubmit(basicid1, 'formFilter1');return false;" name="basicexample1" method="GET">
+			<div><span class="cell">Test Basic TextBox:</span>
+				<d-textbox id="basicid1" maxLength=8 tip="test tip" required selectInputText=true name="basicid1"> <!-- name="basicid1" -->
+					<!-- the only way the input value save works is if the name is on the input and not on the textbox
+					<input id="basicid1-input" name="basicid1-input" value=""/> -->
+				</d-textbox>
+				<span class="cell">Test Basic input:</span>
+				<input id="basicid1b" tip="test tip" maxLength="8" required name="basic1b" value="initialData">
+				<br>
+				<input type="button" value="Toggle selectInputText off" onclick="toggleButton(basicid1, 'selectInputText', this); toggleButton(basicid1b, 'selectInputText', this);">
+				<input type="button" value="Toggle disabled on" onclick="toggleButton(basicid1, 'disabled', this); toggleButton(basicid1b, 'disabled', this);">
+				<input type="button" value="Toggle required off" onclick="toggleButton(basicid1, 'required', this);toggleButton(basicid1b, 'required', this);">
+				<input type="button" value="Set name basicxx" onclick="setPattern('basicid1', 'name', 'basicxx');">
+				<input type="button" value="Set name blank" onclick="setPattern('basicid1', 'name', '');">
+				<br>
+				<input type="button" value="Set value 10 chars" onclick="setTBValue('basicid1', 'value', '0123456789'); setTBValue('basicid1b', 'value', '0123456789');">
+				<input type="button" value="Change maxLength" onclick="changeButtonNumberAttr('basicid1', 'maxLength', this); changeButtonNumberAttr('basicid1b', 'maxLength', this);">
+				<span>maxLength only shows invalid when it is too long and then updated or on submit.</span>
+				<br><span>Note there is a maxlength attribute and a maxLength property which is used to get or set the maxlength attribute.</span>
+				<br><br>
+				<div><span class="cell">Test MinLength this one set to 8: </span>
+					<d-textbox id="minLen" minLength='8' required value="0123" name="minLen"></d-textbox>
+				</div>
+			</div>
+			<input type="submit" value="Submit">
+		</form>
+<br><br>
+
+		<form id="formFilter1B" onsubmit="handleSubmit(typeid2, 'formFilter1B');return false;" name="fitlerexample" method="GET">
+			<div><span class="cell">Test Filters: </span>
+				<d-textbox id="typeid2" trim=true required value="Test   " name="Type"></d-textbox>
+				<span>Current: </span><span id="filterCurrent">filter=No Filter</span><span>  </span>
+				<br>
+				<input type="button" value="Set value" onclick="setValueButton(typeid2, 'value', this);">
+				<input type="button" value="Toggle trim on" onclick="toggleButton(typeid2, 'trim', this);">
+				<input type="button" value="Set case=upper" onclick="setFilter(typeid2, 'case', 'upper', 'filterCurrent');">
+				<input type="button" value="Set case=lower" onclick="setFilter(typeid2, 'case', 'lower', 'filterCurrent');">
+				<input type="button" value="Set case=proper" onclick="setFilter(typeid2, 'case', 'proper', 'filterCurrent');">
+				<input type="button" value="Set case=none" onclick="setFilter(typeid2, 'case', 'none', 'filterCurrent');">
+				<br>
+				<input type="button" value="Toggle selectInputText on" onclick="toggleButton(typeid2, 'selectInputText', this);">
+				<input type="button" value="Toggle disabled on" onclick="toggleButton(typeid2, 'disabled', this);">
+				<input type="button" value="Toggle required off" onclick="toggleButton(typeid2, 'required', this);">
+				<br><span> - Note: Filter changes only take effect when the value is changed. (ie: until you leave the field or else you can not type a blank with trim.)</span>
+			</div>
+			<input type="submit" value="Submit">
+		</form>
+<br><br>
+
+		<form id="form1" onsubmit="handleSubmit(typeid, 'form1');return false;" name="example2222" method="GET">
+			<div><span class="cell">Test Format:</span>
+				<d-textbox id="typeid" name="typeid" value="format test" required format=upperCaseFormat parse=lowerCaseFormat></d-textbox>
+				<span>Current: </span><span id="formatCurrent">format=upperCaseFormat</span><span>  </span><span id="parseCurrent">parse=lowerCaseFormat</span>
+				<br>
+				<input type="button" value="Format uppercase" onclick="setFormat('typeid',upperCaseFormat, 'upperCaseFormat'); formatCurrent.innerHTML='format=upperCaseFormat'">
+				<input type="button" value="Format lowercase" onclick="setFormat('typeid',lowerCaseFormat,'lowerCaseFormat'); formatCurrent.innerHTML='format=lowerCaseFormat'">
+				<input type="button" value="Remove Format" onclick="setFormat('typeid',noFormat, 'noFormat'); formatCurrent.innerHTML='format=noFormat'">
+				<br>
+				<input type="button" value="Parse uppercase" onclick="setParse('typeid',upperCaseFormat, 'upperCaseFormat'); parseCurrent.innerHTML='parse=upperCaseFormat'">
+				<input type="button" value="Parse lowercase" onclick="setParse('typeid',lowerCaseFormat, 'lowerCaseFormat'); parseCurrent.innerHTML='parse=lowerCaseFormat'">
+				<input type="button" value="Remove Parse" onclick="setParse('typeid',noFormat, 'noFormat'); parseCurrent.innerHTML='parse=noFormat'">
+				<br>
+				<input type="button" value="Toggle disabled on" onclick="toggleButton(typeid, 'disabled', this);">
+				<input type="button" value="Toggle required off" onclick="toggleButton(typeid, 'required', this);">
+				<br><span> - Note Test Format has format:case=upper and parse=lowerCaseFormat initially, it only formats/parses when changed, but parse is last so it wins.</span>
+			</div>
+			<input type="reset" value="Reset">
+			<input type="submit" value="Submit">
+		</form>
+		<br><br>
+		<form id="formPattern1" onsubmit="handleSubmit(patternid2, 'formPattern1');return false;" name="patternexample" method="GET">
+			<div><span class="cell">Phone Pattern:</span>
+				<d-textbox id="patternid2" type="tel" tip="Enter valid US phone number, use pattern ###-###-####"
+						   pattern="\d{3}[\-]\d{3}[\-]\d{4}"
+						   required name="patternid2" value="123-456-789">
+				</d-textbox>
+					<span>type=tel, phone pattern is \d{3}[\-]\d{3}[\-]\d{4}</span>
+				<input type="button" value="Toggle disabled on" onclick="toggleButton(patternid2, 'disabled', this);">
+				<input type="button" value="Toggle required off" onclick="toggleButton(patternid2, 'required', this);">
+				<input type="button" value="Remove pattern" onclick="setPattern('patternid2', 'pattern', '');">
+				<input type="button" value="Test checkValidity" onclick="xcheckValidity(patternid2, 'required', this);">
+				<br><span> - Note: Phone pattern shows invalid with required or focus or on submit.</span>
+			</div>
+			<input type="submit" value="Submit">
+		</form>
+
+		<!--
+			<div><span class="cell">Type2:</span> <d-textbox id="typeid2" case="upper" required name="Type"></d-textbox>
+				<input type="button" value="Toggle trim" onclick="typeid2.trim = !typeid2.trim;">
+				<input type="button" value="Toggle uppercase off" onclick="toggleButton(typeid2, 'uppercase', this);">
+				<input type="button" value="Toggle lowercase on" onclick="toggleButton(typeid2, 'lowercase', this);">
+				<input type="button" value="Toggle propercase on" onclick="toggleButton(typeid2, 'propercase', this);">
+				<input type="button" value="Toggle disabled on" onclick="toggleButton(typeid2, 'disabled', this);">
+				<input type="button" value="Toggle required off" onclick="toggleButton(typeid2, 'required', this);">
+			</div>
+			<div><span class="cell">Password:</span> <d-textbox type="password" maxLength=8 required name="Password"></d-textbox>
+				<span>Max length 8</span>
+			</div>
+			<div><span class="cell">Email:</span> <d-textbox type="email" required name="Email"></d-textbox></div>
+			<div><span class="cell">Street:</span> <d-textbox required maxLength=8 id="streetid" name="Address.Street"></d-textbox>
+				<span>Max length 8.</span>
+				<input type="button" value="Toggle required off" onclick="toggleButton(streetid, 'required', this);">
+				<input type="button" value="Validate field" onclick="console.log(streetid.valueNode.checkValidity());">
+				<span> - Note validate does not fail unless the field is changed, and only shows error if focus or required.</span>
+			</div>
+			<div><span class="cell">City:</span> <d-textbox required name="Address.City"></d-textbox></div>
+			<div><span class="cell">State:</span> <d-textbox required name="Address.State"></d-textbox></div>
+			<div><span class="cell">Zipcode:</span> <d-textbox required name="Address.Zip"></d-textbox></div>
+			<div><span class="cell">Area code:</span> <d-textbox required name="Telephone.AreaCode"></d-textbox></div>
+			<div><span class="cell">Landline Number:</span> <d-textbox type="tel" pattern="\d{3}[\-]\d{3}[\-]\d{4}" required name="Telephone.Landline.Number"></d-textbox>
+				<span>type=tel, phone pattern is \d{3}[\-]\d{3}[\-]\d{4}</span>
+			</div>
+			<div><span class="cell">Extension:</span> <d-textbox required name="Telephone.Landline.Extension"></d-textbox></div>
+			<div><span class="cell">Cell Number:</span> <d-textbox required name="Telephone.Cell.Number"></d-textbox></div>
+			<input type="reset" value="Reset">
+			<input type="submit" value="Submit">
+		</form>
+		-->
+
+		<form id="form2" onsubmit="handleSubmit(name1, 'form2');return false;" name="example2" method="GET">
+			<div><br><span>Normal input fields to compare with the Textboxes above:</span></div>
+			<div>
+				<label for="name">Name:</label>
+				<input id="name1" name="name1" value="" required  pattern="[A-Za-z-0-9]+\s[A-Za-z-'0-9]+" title="firstname lastname" aria-required="true" aria-describedby="name-format">
+				<span id="name-format" style="display:none">Format: firstname lastname</span>
+			</div>
+
+
+			<div><span class="cell">Test required:</span> <input id="inpreq" name="inpreq" type="text" required>
+				<input type="button" value="Toggle required off" onclick="toggleButton(inpreq, 'required', this);">
+			</div>
+			<div><span class="cell">Test maxLength:</span> <input type="text" name="maxlen" maxLength=8 required value="0123456789101112">
+				<span>Max length 8 and required</span></div>
+			<div><span class="cell">Test minLength:</span> <input type="text" name="minlen" required minLength=8>
+				<span>Min length 8 and required</span>
+				<span> - Note minLength needs to be spelled minLength?? on Chrome.</span>
+			</div>
+			<div><span class="cell">Test pattern:</span> <input type="text" name="tel" pattern="\d{3}[\-]\d{3}[\-]\d{4}" value="504-466-653" x-moz-errormessage="Enter valid US phone number 123-456-7890">
+				<span>phone pattern is \d{3}[\-]\d{3}[\-]\d{4}</span>
+			</div>
+			<div><span class="cell">Test req pattern:</span> <input type="text" name="tel2" required pattern="\d{3}[\-]\d{3}[\-]\d{4}" value="504-466-653" title="Enter valid US phone number, use pattern ###-###-####" x-moz-errormessage="Enter valid US phone number, use pattern ###-###-####">
+				<span>required and phone pattern is \d{3}[\-]\d{3}[\-]\d{4}</span>
+			</div>
+			<input type="submit" value="Submit">
+		</form>
+		<br>
+		<div>
+			<span> - Note Require, Format and Parse happen on the initial value, filter and maxLength only on update.</span>
+			<br>
+			<span> - Note not sure about format and parse, currently both are being called so parse is last so it wins.</span>
+		</div>
+	</div>
+</body>
+</html>

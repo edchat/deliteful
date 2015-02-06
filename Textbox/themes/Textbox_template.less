@@ -1,0 +1,33 @@
+.d-textbox-input {
+	.d-textbox-input-styles();
+	height: 22px;
+	border-width: 1px;
+	border-style: inset;
+	font-family: Helvetica;
+	font-size: 13px;
+	border-color: #9cacc0;
+	border-radius: 5px;
+	&.d-disabled,
+	fieldset[disabled] & {
+		cursor: not-allowed;
+	}
+}
+.d-textbox-input:focus {
+	outline: thin dotted;
+	outline: 5px auto -webkit-focus-ring-color;
+	outline-offset: -2px;
+}
+.d-textbox-input:focus:invalid {
+	outline-offset: -2px;
+	outline-style: auto;
+	outline-width: 5px;
+	outline-color: rgb(212, 100, 100);
+ }
+.d-textbox-input:required:invalid, d-textbox-input:focus:invalid {
+	box-shadow: 0 0 1.5px 1px rgb(212, 100, 100);
+	border: 2px inset rgb(212, 100, 100);
+	background-repeat: no-repeat;
+	background-image: url("./images/error.png");
+	background-position: right top;
+	background-size: auto 100%;
+}

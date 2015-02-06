@@ -1,0 +1,15 @@
+@import "../../../../delite/themes/bootstrap/includes";
+
+@import "../../../../delite/themes/bootstrap/variables.less";
+
+@import "../Textbox_template";
+
+.d-textbox-styles() {
+	color: @input-color;
+}
+
+.d-textbox-input-styles() {
+	&:focus {
+		.tab-focus(); /* defined in delite/themes/bootstrap/mixins.less */
+	}
+}

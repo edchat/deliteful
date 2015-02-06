@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+	<meta name="viewport"
+		  content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"/>
+	<meta name="apple-mobile-web-app-capable" content="yes"/>
+	<title>Textbox</title>
+
+	<!-- For testing purposes. Real applications should load the AMD loader directly -->
+	<script type="text/javascript" src="../boilerplate.js"></script>
+</head>
+<body>
+	<h1>d-textbox functional test</h1>
+	<d-textbox id='basictb1'></d-textbox><br>
+	<d-textbox id='requiredtb1' required value="a"></d-textbox><br>
+	<d-textbox id='requiredtb1b' required></d-textbox><br>
+	<d-textbox id='disabledtb2' disabled value="Disabled"></d-textbox><br>
+	<d-textbox id='trimtb3' trim=true value='Trim  '></d-textbox><br>
+	<d-textbox id='uppercasetb4' case='upper' value='upper case'></d-textbox><br>
+	<d-textbox id='lowercasetb5' case='lower' value='Lower Case'></d-textbox><br>
+	<d-textbox id='propercasetb6' case='proper' value='proper case'></d-textbox><br>
+	<d-textbox id='selectInputTexttb7' selectInputText=true value='select input text'></d-textbox><br>
+	<d-textbox id='patterntb8' type='text' pattern='[a-zA-Z0-9]+' value='alphaumericOnly$'></d-textbox><br>
+	<d-textbox id='patterntb8b' type='tel' pattern='\d{3}[\-]\d{3}[\-]\d{4}'
+			   tip="Enter valid US phone number, use pattern ###-###-####" value='111-222-333'></d-textbox><br>
+	<d-textbox id='maxLengthtb9' maxLength='8' value='0123456789'></d-textbox><br>
+	<d-textbox id='minLengthtb10' minLength='8' value='0123'></d-textbox><br>
+	<d-textbox id='tb11' value='foo'></d-textbox><br>
+	<div id='tempDiv'><input type="text" id="tempInput" value="2" ></div><br>
+	<!--
+	<d-textbox id='tb11' type='text' format=upperCaseFormat value='Uppercase Value'></d-textbox><br>
+	<form id="form1" action="processForm.html">
+		<fieldset>
+			<p>
+				Unchecked: <d-textbox id="tb3" value="1" name="tb3"></d-textbox>
+				Checked: <d-textbox id="tb4" checked value="2" name="tb4"></d-textbox>
+				Disabled: <d-textbox id="tb5" checked disabled value="3" name="tb5"></d-textbox>
+				readOnly: <d-textbox id="tb6" checked readOnly value="4" name="tb6"></d-textbox>
+			</p>
+
+			<input type="reset" id="resetB" name="reset"/>
+			<input type="submit" id="submitB" />
+		</fieldset>
+
+	</form>
+	-->
+</body>

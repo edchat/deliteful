@@ -1,5 +1,6 @@
 //Listing of all the deliteful unit tests
 define([
+	"./Textbox",
 	"./Checkbox",
 	"./LinearLayout-direction",
 	"./LinearLayout-horizontal",
@@ -30,6 +31,6 @@ define([
 	"./SwapView",
 	"./ViewIndicator",
 	"./Combobox",
-	"./channelBreakpoints",
+	"./channelBreakpoints"//,
 	//"./bidi/all"
 ]);

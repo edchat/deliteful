@@ -134,6 +134,8 @@ define([
 	var checkCombobox = function (combo, test, trackableStore) {
 		// These checks are common to both cases: trackable and non-trackable stores
 
+		combo.deliver(); // make sure updates are complete
+
 		if (!trackableStore) {
 			// With non-trackable stores, adding items to the store does not
 			// trigger an invalidation, hence:
@@ -324,7 +326,7 @@ define([
 				// For some reason, the testing with click() doesn't pass on iOS for now,
 				// although it does seem to work when testing manually on the device.
 				// TODO: is it due to intern? other reason?
-				this.skip("Skipping this test on iOS.");
+			//	this.skip("Skipping this test on iOS.");
 			}
 			var combo = createCombobox("combo-a-1", true);
 			checkCombobox(combo, this);
@@ -339,7 +341,7 @@ define([
 				// For some reason, the testing with click() doesn't pass on iOS for now,
 				// although it does seem to work when testing manually on the device.
 				// TODO: is it due to intern? other reason?
-				this.skip("Skipping this test on iOS.");
+			//	this.skip("Skipping this test on iOS.");
 			}
 			var combo = createCombobox("combo-b-1", false);
 			checkCombobox(combo, this);
@@ -398,7 +400,7 @@ define([
 				// For some reason, the testing with click() doesn't pass on iOS for now,
 				// although it does seem to work when testing manually on the device.
 				// TODO: is it due to intern? other reason?
-				this.skip("Skipping this test on iOS.");
+			//	this.skip("Skipping this test on iOS.");
 			}
 
 			var d = this.async(2000);
@@ -486,7 +488,7 @@ define([
 				// For some reason, the testing with click() doesn't pass on iOS for now,
 				// although it does seem to work when testing manually on the device.
 				// TODO: is it due to intern? other reason?
-				this.skip("Skipping this test on iOS.");
+			//	this.skip("Skipping this test on iOS.");
 			}
 
 			var d = this.async(4000);
@@ -560,7 +562,7 @@ define([
 				// For some reason, the testing with click() doesn't pass on iOS for now,
 				// although it does seem to work when testing manually on the device.
 				// TODO: is it due to intern? other reason?
-				this.skip("Skipping this test on iOS.");
+			//	this.skip("Skipping this test on iOS.");
 			}
 			var list = new List({store: dataStoreWithValue, valueAttr: "myValue"});
 			var combo = new Combobox({list: list});
@@ -602,7 +604,7 @@ define([
 				// For some reason, the testing with click() doesn't pass on iOS for now,
 				// although it does seem to work when testing manually on the device.
 				// TODO: is it due to intern? other reason?
-				this.skip("Skipping this test on iOS.");
+			//	this.skip("Skipping this test on iOS.");
 			}
 			var list = new List({store: dataStoreWithValue, valueAttr: "myValue"});
 			var combo = new Combobox({list: list, selectionMode: "multiple"});
